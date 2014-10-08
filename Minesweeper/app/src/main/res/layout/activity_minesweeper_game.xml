@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".MinesweeperGame"
+    android:orientation="vertical">
+
+    <net.desandoval.apps.minesweeper.ViewMinesweeper
+        android:id="@+id/viewMinesweeper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <TextView
+        android:text="\nSet Click Type:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ToggleButton
+        android:id="@+id/toggleFlag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOn="Click"
+        android:textOff="Flag"/>
+</LinearLayout>
