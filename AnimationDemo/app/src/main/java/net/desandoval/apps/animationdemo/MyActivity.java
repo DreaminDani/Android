@@ -28,12 +28,8 @@ public class MyActivity extends Activity {
         final Button btnPress = (Button) findViewById(R.id.btnPress);
         btnPress.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                // play animation
-//
-//                btnPress.startAnimation(anim);
-//                etData.startAnimation(anim);
-                layoutContainer.startAnimation(anim);
+            public void onClick(View v) {
+
             }
         });
 

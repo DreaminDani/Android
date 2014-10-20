@@ -5,7 +5,7 @@ android {
     buildToolsVersion "20.0.0"
 
     defaultConfig {
-        applicationId "net.desandoval.apps.placestovisitdemo"
+        applicationId "demo.android.ait.hu.placestovisitdemo"
         minSdkVersion 16
         targetSdkVersion 20
         versionCode 1

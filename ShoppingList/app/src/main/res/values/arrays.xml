@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources> <string-array name="itemtypes_array">
+    <item>Household</item>
+    <item>Bakery</item>
+    <item>Dairy</item>
+    <item>Bulk food</item>
+    <item>Meat + Deli</item>
+    <item>Cooking</item>
+    <item>Produce</item>
+    <item>Cleaning</item>
+    <item>Pharmacy</item>
+    <item>Electronics</item>
+    <item>Literature (Books/Periodicals)</item>
+</string-array></resources>
