@@ -10,24 +10,51 @@
 
     <TextView
         android:id="@+id/tvTitle"
-        android:text="Places to visit"
+        android:text="Shopping List"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:textSize="30sp"/>
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTitle">
+        <Button
+            android:id="@+id/btnSort"
+            android:layout_width="0px"
+            android:layout_weight="50"
+            android:layout_height="wrap_content"
+            android:text="Sort Items by:\nStore (Location)"
+            android:textSize="16sp"/>
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="0px"
+            android:layout_weight="50"
+            android:layout_height="wrap_content"
+            android:text="Delete All Items\nIn List"
+            android:textSize="16sp"/>
+        </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/helpText"
+        android:layout_below="@+id/buttons"
+        android:text="Press and Hold an Item to Delete It from Your List"/>
 
     <ListView android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvTitle"
+        android:layout_below="@+id/helpText"
         />
 
     <TextView android:id="@android:id/empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="No place"
+        android:text="You have not added any items\nClick 'NEW ITEM' to start shopping!"
         android:textSize="20sp"/>
 
 </RelativeLayout>

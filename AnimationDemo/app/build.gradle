@@ -5,8 +5,8 @@ android {
     buildToolsVersion "20.0.0"
 
     defaultConfig {
-        applicationId "net.desandoval.apps.animationdemo"
-        minSdkVersion 15
+        applicationId "examples.android.ait.hu.animationdemo"
+        minSdkVersion 16
         targetSdkVersion 20
         versionCode 1
         versionName "1.0"

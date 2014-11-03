@@ -9,15 +9,20 @@
     tools:context="demo.android.ait.hu.placestovisit.CreatePlaceToVisitActivity"
     android:orientation="vertical">
 
-    <TextView
-        android:text="Item type:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:text="Item type:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <Spinner
-        android:id="@+id/spinnerItemType"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        <Spinner
+            android:id="@+id/spinnerItemType"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
 
     <EditText
         android:id="@+id/etItemName"
@@ -37,7 +42,7 @@
         android:layout_height="wrap_content" />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
             android:text="$"

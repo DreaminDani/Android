@@ -9,6 +9,7 @@ import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import demo.android.app.hu.sqldemo.data.DatabaseHelper;
 import demo.android.app.hu.sqldemo.data.Person;
@@ -30,8 +31,8 @@ public class MyActivity extends Activity {
         super.onStart();
         databaseHelper = new DatabaseHelper(this);
 
-        /*createPerson(new Person("John",new Date(System.currentTimeMillis())));
-        createPerson(new Person("Alex",new Date(System.currentTimeMillis())));*/
+        createPerson(new Person("John",new Date(System.currentTimeMillis())));
+        createPerson(new Person("Alex",new Date(System.currentTimeMillis())));
 
         try {
             StringBuilder sb = new StringBuilder();

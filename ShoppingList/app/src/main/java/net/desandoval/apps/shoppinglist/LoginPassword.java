@@ -39,13 +39,12 @@ public class LoginPassword extends Activity {
             password.setHint("Please Create a Password");
         }
 
-
-
         login.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
 
+                // User must set a password on first run. Otherwise, login checks if password matches the one in SharedPreferences
                 if (isFirstRun) {
                     if (password.getText().toString().length() > 3) {
                         prefEditor.putString("password", password.getText().toString()).apply();
@@ -65,8 +64,8 @@ public class LoginPassword extends Activity {
                     }
                 } else {
                     String storedPass = settings.getString("password", "");
-                    Log.d("Alert", "Password in storage: " + storedPass);
-                    Log.d("Alert", "User password: " + password.getText().toString());
+//                    Log.d("Alert", "Password in storage: " + storedPass);
+//                    Log.d("Alert", "User password: " + password.getText().toString());
                     if (password.getText().toString().equals(storedPass)) {
                         Intent i = new Intent(LoginPassword.this, ShoppingList.class);
                         startActivity(i);
