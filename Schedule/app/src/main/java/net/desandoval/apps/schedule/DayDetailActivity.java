@@ -6,6 +6,8 @@ import android.app.Activity;
 
 import android.view.MenuItem;
 
+import net.desandoval.apps.schedule.adapter.EventListAdapter;
+
 
 /**
  * An activity representing a single Day detail screen. This
@@ -17,6 +19,9 @@ import android.view.MenuItem;
  * more than a {@link DayDetailFragment}.
  */
 public class DayDetailActivity extends Activity {
+
+    public static EventListAdapter mAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
