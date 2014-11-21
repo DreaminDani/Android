@@ -48,6 +48,7 @@ public class DialogCreateDayItem extends DialogFragment {
         final EditText etEventName  = (EditText) getDialog().findViewById(R.id.etEventName);
         final EditText etEventLocation  = (EditText) getDialog().findViewById(R.id.etEventLocation);
         final TimePicker etStartTime = (TimePicker) getDialog().findViewById(R.id.etStartTime);
+        etStartTime.setIs24HourView(true);
         Button btn = (Button) getDialog().findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +58,7 @@ public class DialogCreateDayItem extends DialogFragment {
                                                     etStartTime.getCurrentMinute(), etEventLocation.getText().toString());
                 dayEvent.save();
 
+                DayDetailActivity.mAdapter.addItem(dayEvent);
                 getTargetFragment().onActivityResult(
                         getTargetRequestCode(),
                         Activity.RESULT_OK,

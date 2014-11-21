@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
     }
 
     private void showDayItems() {
-        //List<DayItem> dayItems = DayItem.listAll(DayItem.class);
+        //List<DayItem> dayItems ;
 
         List<DayItem> dayItems = DayItem.find(DayItem.class, "title = '12title'");
 

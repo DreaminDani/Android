@@ -1,19 +1,17 @@
 package net.desandoval.apps.schedule;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Bundle;
 import android.app.Fragment;
-import android.view.Gravity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +22,7 @@ import net.desandoval.apps.schedule.dummy.DayContent;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -40,6 +39,9 @@ public class DayDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
     public static final int CRATE_DIALOG_REQUEST_CODE = 101;
     List<DayEvent> eventList = null;
+    EventListAdapter adapter;
+
+    public static final int CONTEXT_ACTION_DELETE = 10;
 
     /**
      * The dummy content this fragment is presenting.
@@ -57,26 +59,7 @@ public class DayDetailFragment extends Fragment {
     public void onStart(){
         super.onStart();
 
-        buildList();
 
-        if (eventList != null) {
-            EventListAdapter adapter = new EventListAdapter(eventList);
-            DayDetailActivity.mAdapter = adapter;
-            ListView listView = (ListView) getActivity().findViewById(R.id.eventList);
-            listView.setAdapter(adapter);
-        }
-
-    }
-
-    /*
-     * Generates new itemsList from stored Items in the ORM database
-     */
-    public void buildList() {
-        List<DayEvent> tempList = DayEvent.find(DayEvent.class, "title = " + "'" + mItem.content + "'");
-
-        if (tempList != null) {
-            eventList = tempList;
-        }
     }
 
     @Override
@@ -96,15 +79,38 @@ public class DayDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        eventList = new ArrayList<DayEvent>();
+        buildList();
+
         View rootView = inflater.inflate(R.layout.fragment_day_detail, container, false);
+
+        adapter = new EventListAdapter(eventList, getActivity());
+        DayDetailActivity.mAdapter = adapter;
+        ListView listView = (ListView) rootView.findViewById(R.id.eventList);
+        listView.setAdapter(adapter);
+
+        registerForContextMenu(listView);
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.day_detail)).setText(mItem.content);
-            populateList();
+            populateList(rootView);
         }
 
         return rootView;
+    }
+
+    /*
+   * Generates new itemsList from stored Items in the ORM database
+   */
+    public void buildList() {
+        List<DayEvent> tempList = DayEvent.find(DayEvent.class, "day = " + "'" + mItem.content + "'");
+
+        Collections.sort(tempList); // need to make comparator to sort
+
+         for (int i = 0; i < tempList.size(); i++) {
+             eventList.add(tempList.get(i));
+         }
     }
 
     @Override
@@ -130,8 +136,11 @@ public class DayDetailFragment extends Fragment {
         return true;
     }
 
-    public void populateList() {
-
+    public void populateList(View rootView) {
+        for (int i = 0; i < eventList.size(); i++) {
+            adapter.getItem(i);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -142,5 +151,29 @@ public class DayDetailFragment extends Fragment {
                         getActivity(), "Created...", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        menu.setHeaderTitle("Menu");
+        menu.add(0, CONTEXT_ACTION_DELETE, 0, "Delete");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getItemId() == CONTEXT_ACTION_DELETE) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            DayEvent tempItem = (DayEvent) adapter.getItem(info.position);
+
+            tempItem.delete();
+
+            adapter.removeItem(info.position);
+            adapter.notifyDataSetChanged();
+
+
+        } else {
+            return false;
+        }
+        return true;
     }
 }
