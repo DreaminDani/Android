@@ -4,36 +4,88 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParsePush;
+import com.parse.ParseQuery;
+import com.parse.PushService;
+
+import java.util.List;
 
 
 public class MainActivity extends Activity {
+
+    private String userName = "Daniel";
+    private TextView tvMessages = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
 
+        final EditText etMessage = (EditText) findViewById(R.id.etMessage);
+        Button btnSend = (Button) findViewById(R.id.btnSend);
+        Button btnRefresh = (Button) findViewById(R.id.btnRefresh);
+        tvMessages = (TextView) findViewById(R.id.tvMessages);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendMessage(etMessage.getText().toString());
+                etMessage.setText("");
+            }
+        });
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        btnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshMessages();
+            }
+        });
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        ParsePush.subscribeInBackground("AITMessages");
+
+        if (getIntent() != null && getIntent().hasExtra("KEY_NEW_MSG") && getIntent().getBooleanExtra("KEY_NEW_MSG", false)) {
+            refreshMessages();
         }
 
-        return super.onOptionsItemSelected(item);
+    }
+
+    private void sendMessage(String msg) {
+        ParseObject po = new ParseObject("message");
+        po.put("user_name", userName);
+        po.put("message", msg);
+        po.saveInBackground();
+
+        ParsePush push = new ParsePush();
+        push.setChannel("AITMessages");
+        push.setMessage(userName+": "+msg);
+        push.sendInBackground();
+    }
+
+    private void refreshMessages() {
+        ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("message");
+        parseQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (e != null) {
+                    tvMessages.setText("ERROR: " + e.getMessage());
+                }else {
+                    tvMessages.setText("");
+
+                    for (ParseObject po : parseObjects) {
+                        tvMessages.append(po.getString("user_name") +
+                        ": "+po.getString("message")+"\n");
+                    }
+                }
+            }
+        });
     }
 }
+

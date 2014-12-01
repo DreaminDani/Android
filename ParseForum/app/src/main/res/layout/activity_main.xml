@@ -23,9 +23,15 @@
         android:text="Refresh"
         android:id="@+id/btnRefresh"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvMessages"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvMessages"/>
+        </ScrollView>
+
 
 </LinearLayout>
