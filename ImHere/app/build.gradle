@@ -1,6 +1,19 @@
 apply plugin: 'com.android.application'
 
+configurations.compile {
+    exclude module: 'spring-core'
+    exclude module: 'spring-web'
+    exclude module: 'commons-logging'
+}
+
 android {
+    packagingOptions {
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/notice.txt'
+    }
     compileSdkVersion 21
     buildToolsVersion "21.1.0"
 
@@ -13,12 +26,18 @@ android {
     }
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    repositories {
+        maven {
+            url 'http://repo.spring.io/milestone'
         }
     }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'org.springframework.social:spring-social-tripit:1.0.0.M3'
 }

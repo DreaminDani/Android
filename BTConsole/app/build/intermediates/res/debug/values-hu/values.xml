@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- From: file:/D:/Development/AndroidStudioProjects/BTConsole/app/src/main/res/values-hu/strings.xml -->
+    <eat-comment />
+
+    <string name="app_name">BTConsole</string>
+    <string name="app_title">Bluetooth Tesztelő</string>
+    <string name="btn_ok">Ok</string>
+    <string name="btn_scan">Készülékek keresése</string>
+    <string name="btn_send">Küldés</string>
+    <string name="serialUUID">00001101-0000-1000-8000-00805F9B34FB</string>
+    <string name="titleSelectUUID">Kérem adja meg az UUID-t!</string>
+    <string name="txtConnectFailed">Kapcsolódás nem sikerült! Ok: </string>
+    <string name="txtConnectSucc">Sikeres kapcsolódás!</string>
+    <string name="txtConnecting">Kapcsolódás...</string>
+    <string name="txtDevNotPaired">Nincs párosítva az eszköz: </string>
+    <string name="txtEnterUUID">UUID:</string>
+    <string name="txtIn">Be: </string>
+    <string name="txtMessage">Üzenet: </string>
+
+</resources>

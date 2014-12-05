@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BTConsole</string>
+    <string name="app_title">Bluetooth Tester</string>
+    <string name="titleSelectUUID">Please enter UUID!</string>
+    
+    <string name="btn_ok">Ok</string>
+    <string name="btn_scan">Scan</string>
+    <string name="btn_send">Send</string>
+
+    <string name="txtEnterUUID">UUID:</string>
+    <string name="txtConnecting">Connecting...</string>
+    <string name="txtConnectSucc">Connected successfully!</string>
+    <string name="txtConnectFailed">Connect failed! Reason: </string>
+    <string name="txtIn">In: </string>
+    <string name="txtDevNotPaired">Device not paired:  </string>
+    <string name="txtMessage">Message: </string>
+    <string name="serialUUID">00001101-0000-1000-8000-00805F9B34FB</string>
+</resources>

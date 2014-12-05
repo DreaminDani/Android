@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="2" >
+
+    <dataSet config="main" >
+        <source path="D:\Development\AndroidStudioProjects\BTConsole\app\src\main\res" >
+            <file
+                name="pushanim"
+                path="D:\Development\AndroidStudioProjects\BTConsole\app\src\main\res\anim\pushanim.xml"
+                qualifiers=""
+                type="anim" />
+            <file
+                name="ic_launcher"
+                path="D:\Development\AndroidStudioProjects\BTConsole\app\src\main\res\drawable\ic_launcher.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="commlayout"
+                path="D:\Development\AndroidStudioProjects\BTConsole\app\src\main\res\layout\commlayout.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="devlice_list_item"
+                path="D:\Development\AndroidStudioProjects\BTConsole\app\src\main\res\layout\devlice_list_item.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="dialog_select_uuid"
+                path="D:\Development\AndroidStudioProjects\BTConsole\app\src\main\res\layout\dialog_select_uuid.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="main"
+                path="D:\Development\AndroidStudioProjects\BTConsole\app\src\main\res\layout\main.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                path="D:\Development\AndroidStudioProjects\BTConsole\app\src\main\res\values\strings.xml"
+                qualifiers="" >
+                <string name="titleSelectUUID" >Please enter UUID!
+                </string>
+                <string name="serialUUID" >00001101-0000-1000-8000-00805F9B34FB
+                </string>
+                <string name="app_name" >űBTConsole
+                </string>
+                <string name="txtMessage" >Message: 
+                </string>
+                <string name="btn_scan" >Scan
+                </string>
+                <string name="txtDevNotPaired" >Device not paired:  
+                </string>
+                <string name="txtConnectSucc" >Connected successfully!
+                </string>
+                <string name="txtIn" >In: 
+                </string>
+                <string name="btn_ok" >Ok
+                </string>
+                <string name="txtEnterUUID" >UUID:
+                </string>
+                <string name="app_title" >Bluetooth Tester
+                </string>
+                <string name="txtConnecting" >Connecting...
+                </string>
+                <string name="btn_send" >Send
+                </string>
+                <string name="txtConnectFailed" >Connect failed! Reason: 
+                </string>
+            </file>
+            <file
+                path="D:\Development\AndroidStudioProjects\BTConsole\app\src\main\res\values-hu\strings.xml"
+                qualifiers="hu" >
+                <string name="serialUUID" >00001101-0000-1000-8000-00805F9B34FB
+                </string>
+                <string name="txtConnecting" >Kapcsolódás...
+                </string>
+                <string name="app_title" >Bluetooth Tesztelő
+                </string>
+                <string name="btn_ok" >Ok
+                </string>
+                <string name="btn_scan" >Készülékek keresése
+                </string>
+                <string name="txtIn" >Be: 
+                </string>
+                <string name="txtConnectFailed" >Kapcsolódás nem sikerült! Ok: 
+                </string>
+                <string name="txtDevNotPaired" >Nincs párosítva az eszköz: 
+                </string>
+                <string name="titleSelectUUID" >Kérem adja meg az UUID-t!
+                </string>
+                <string name="txtMessage" >Üzenet: 
+                </string>
+                <string name="btn_send" >Küldés
+                </string>
+                <string name="app_name" >BTConsole
+                </string>
+                <string name="txtEnterUUID" >UUID:
+                </string>
+                <string name="txtConnectSucc" >Sikeres kapcsolódás!
+                </string>
+            </file>
+        </source>
+        <source path="D:\Development\AndroidStudioProjects\BTConsole\app\build\generated\res\rs\debug" />
+        <source path="D:\Development\AndroidStudioProjects\BTConsole\app\build\generated\res\generated\debug" />
+    </dataSet>
+    <dataSet config="debug" >
+        <source path="D:\Development\AndroidStudioProjects\BTConsole\app\src\debug\res" />
+    </dataSet>
+
+</merger>

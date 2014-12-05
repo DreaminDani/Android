@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="D:\Development\AndroidStudioProjects\App2014\13\CameraTextureViewTest1\app\build\intermediates\pre-dexed\debug\support-v4-18.0.0-2205dc014a04cdd7fdcc3c6d3e2e8c6be689c2fc.jar"
+        jar="C:\Android\sdk\extras\android\m2repository\com\android\support\support-v4\18.0.0\support-v4-18.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="44ec51e9d395a47aab135e5e1b556c0007442156"/>
+    <item
+        dex="D:\Development\AndroidStudioProjects\App2014\13\CameraTextureViewTest1\app\build\intermediates\pre-dexed\debug\commons-logging-1.1.1-19723b67b99003853c0feb8fea6881a93a590b37.jar"
+        jar="D:\Development\AndroidStudioProjects\App2014\13\CameraTextureViewTest1\app\libs\commons-logging-1.1.1.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="5043bfebc3db072ed80fbd362e7caf00e885d8ae"/>
+    <item
+        dex="D:\Development\AndroidStudioProjects\App2014\13\CameraTextureViewTest1\app\build\intermediates\pre-dexed\debug\httpclient-4.1.2-75306df9fc376c9a187f6c7998459b07de43bee7.jar"
+        jar="D:\Development\AndroidStudioProjects\App2014\13\CameraTextureViewTest1\app\libs\httpclient-4.1.2.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="c5bf45f7f35857d2c2dccfadf213ff047778a7cb"/>
+    <item
+        dex="D:\Development\AndroidStudioProjects\App2014\13\CameraTextureViewTest1\app\build\intermediates\pre-dexed\debug\httpcore-4.1.2-ae203e7afefee364da2d946dc8bbed3d926a1539.jar"
+        jar="D:\Development\AndroidStudioProjects\App2014\13\CameraTextureViewTest1\app\libs\httpcore-4.1.2.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="39e30fb2ddfcf32b9dd663039ca6e847b698aa6f"/>
+    <item
+        dex="D:\Development\AndroidStudioProjects\App2014\13\CameraTextureViewTest1\app\build\intermediates\pre-dexed\debug\commons-codec-1.4-8a76dec826b806267d709d9254fc528cca02d522.jar"
+        jar="D:\Development\AndroidStudioProjects\App2014\13\CameraTextureViewTest1\app\libs\commons-codec-1.4.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="4216af16d38465bbab0f3dff8efa14204f7a399a"/>
+    <item
+        dex="D:\Development\AndroidStudioProjects\App2014\13\CameraTextureViewTest1\app\build\intermediates\pre-dexed\debug\httpclient-cache-4.1.2-7857abc521cdf4bf0f501c67508fcfd67418ab87.jar"
+        jar="D:\Development\AndroidStudioProjects\App2014\13\CameraTextureViewTest1\app\libs\httpclient-cache-4.1.2.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="d120bc4fa4f0ca8a8c92a1cc7093506f68e235a0"/>
+    <item
+        dex="D:\Development\AndroidStudioProjects\App2014\13\CameraTextureViewTest1\app\build\intermediates\pre-dexed\debug\httpmime-4.1.2-a17956bd62debb357cc5f60ed0f051b02870e20f.jar"
+        jar="D:\Development\AndroidStudioProjects\App2014\13\CameraTextureViewTest1\app\libs\httpmime-4.1.2.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="ed8b5ee0167cb27dea55851259eb34b609f31df0"/>
+
+</pre-dex-items>

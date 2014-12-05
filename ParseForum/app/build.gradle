@@ -5,8 +5,8 @@ android {
     buildToolsVersion "21.1.0"
 
     defaultConfig {
-        applicationId "net.desandoval.apps.parseforum"
-        minSdkVersion 16
+        applicationId "android.aut.hu.parseforum"
+        minSdkVersion 17
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"

@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.desandoval.apps.parseforum" >
+    package="android.aut.hu.parseforum" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:name=".MyApplication"
+        >
         <activity
-            android:name="net.desandoval.apps.parseforum.MainActivity"
+            android:name="android.aut.hu.parseforum.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +27,7 @@
 
         <service android:name="com.parse.PushService" />
 
-        <receiver android:name=".MyPushBroadcastReciever"
+        <receiver android:name=".MyPushBoradcastReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
