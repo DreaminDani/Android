@@ -11,7 +11,7 @@ import android.util.Log;
  *	Class with all the information of the authentication
  */
 public class OAuthData {
-	
+
 	private OAuth _oauth;
 
 	public String provider;		/** name of the provider */
@@ -27,7 +27,10 @@ public class OAuthData {
 	{
 		_oauth = o;
 	}
-	
+
+//    public OAuthData(String provider, String token, String secret, String status) {
+//
+//    }
 	/**
 	 * Inject the authorization informations to an http request by providing an
 	 * OAuthRequest implementation. If the authorization method of the provider is OAuth 1,
@@ -89,7 +92,7 @@ public class OAuthData {
 				if (qs.length() > 0 && url.indexOf("?") == -1)
 					qs = "?" + qs.substring(1);
 				url += qs;
-				
+
 				setters.onSetURL(url);
 				
 				if (request.has("headers")) {

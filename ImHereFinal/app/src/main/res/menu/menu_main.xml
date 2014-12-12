@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".EditLocations">
+    <item
+        android:id="@+id/action_help"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="Help" />
+    <item
+        android:id="@+id/action_clear"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="Clear Markers" />
+</menu>

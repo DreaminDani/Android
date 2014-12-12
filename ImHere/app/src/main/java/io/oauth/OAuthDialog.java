@@ -15,6 +15,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -88,7 +89,7 @@ public class OAuthDialog extends Dialog {
 
 		mWebView.setWebViewClient(new OAuthWebViewClient());
         mWebView.setWebChromeClient(new WebChromeClient());
-        
+
         mWebView.loadUrl(mUrl);
         mLayout.addView(mWebView);
         

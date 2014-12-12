@@ -23,7 +23,6 @@ public class MainActivity extends Activity {
 
         map = ((MapFragment)getFragmentManager() . findFragmentById(R.id.map)).getMap();
 
-        map.setTrafficEnabled(true);
     }
 
 

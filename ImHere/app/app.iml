@@ -86,6 +86,8 @@
     <orderEntry type="library" exported="" name="spring-social-core-1.0.0.M3" level="project" />
     <orderEntry type="library" exported="" name="jackson-core-asl-1.7.3" level="project" />
     <orderEntry type="library" exported="" name="jackson-mapper-asl-1.7.3" level="project" />
+    <orderEntry type="library" exported="" name="Parse-1.7.1" level="project" />
+    <orderEntry type="library" exported="" name="bolts-android-1.1.3" level="project" />
     <orderEntry type="library" exported="" name="spring-social-tripit-1.0.0.M3" level="project" />
   </component>
 </module>
