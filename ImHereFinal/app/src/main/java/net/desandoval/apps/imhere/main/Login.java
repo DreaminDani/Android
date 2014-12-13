@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -32,15 +33,18 @@ public class Login extends Activity {
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
-            Toast.makeText(Login.this, "Loading old user", Toast.LENGTH_LONG).show();
+//            Toast.makeText(Login.this, "Loading old user", Toast.LENGTH_LONG).show();
+            Log.d("Login Parse", "Loading old user");
         } else {
             final String deviceId = getTelephoneId();
             ParseUser.logInInBackground(deviceId, deviceId, new LogInCallback() {
                 public void done(ParseUser user, ParseException e) {
                     if (user != null) {
-                        Toast.makeText(Login.this, "Logging into Parse", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(Login.this, "Logging into Parse", Toast.LENGTH_LONG).show();
+                        Log.d("Login Parse", "Logging into Parse");
                     } else {
-                        Toast.makeText(Login.this, "User not yet created", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(Login.this, "User not yet created", Toast.LENGTH_LONG).show();
+                        Log.d("Login Parse", "User not yet created");
                         createNewUser(deviceId);
                     }
                 }
@@ -73,7 +77,7 @@ public class Login extends Activity {
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
-                    Toast.makeText(Login.this, "Created New User", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(Login.this, "Created New User", Toast.LENGTH_LONG).show();
                 } else {
                     try {
                         throw new Exception(e.getMessage());

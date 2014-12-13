@@ -1,8 +1,17 @@
 package net.desandoval.apps.imhere.locations;
 
 import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -28,6 +37,8 @@ import com.parse.ParseUser;
 import net.desandoval.apps.imhere.R;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -38,6 +49,15 @@ public class EditLocations extends ActionBarActivity {
     private GoogleMap map;
     private List<Marker> markerList;
     private List<Marker> storedMarkers;
+
+    private static final long POINT_RADIUS = 10000; // in Meters (calculated average American city radius)
+    private static final long PROX_ALERT_EXPIRATION = -1;
+
+    private static final String PROX_ALERT_INTENT = "net.desandoval.apps.imhere.main.ProximityAlert";
+
+    private static final NumberFormat nf = new DecimalFormat("##.########");
+
+    private LocationManager locationManager;
 
     public EditLocations(){
         if(markerList == null){
@@ -52,6 +72,13 @@ public class EditLocations extends ActionBarActivity {
 
         map = ((MapFragment)getFragmentManager() . findFragmentById(R.id.map)).getMap();
 
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        if (!pref.getBoolean("hasMovementListener",false)){
+            new MovementLocationListener(getApplicationContext());
+        }
+
         getMarkersFromParse();
 
         markerList = storedMarkers;
@@ -61,6 +88,7 @@ public class EditLocations extends ActionBarActivity {
             public void onMapLongClick(LatLng point) {
                 String label = getMyLocationAddress(point);
                 MarkerOptions mo = new MarkerOptions().position(point).title(label).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                mo.snippet("Tap here to remove this marker");
                 markerList.add(map.addMarker(mo));
                 ParseObject marker = new ParseObject("CustomLocation");
                 marker.put("user", ParseUser.getCurrentUser());
@@ -68,6 +96,35 @@ public class EditLocations extends ActionBarActivity {
                 marker.put("longitude", point.longitude);
                 marker.put("location", label);
                 marker.saveInBackground();
+                saveProximityAlertPoint(point);
+            }
+        });
+
+        // Setting click event handler for InfoWindow
+        map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                LatLng currentPoint = marker.getPosition();
+
+                removeProximityAlert(getPointId(currentPoint));
+
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("CustomLocation");
+                query.whereEqualTo("user", ParseUser.getCurrentUser());
+                query.whereEqualTo("latitude", currentPoint.latitude);
+                query.whereEqualTo("longitude", currentPoint.longitude);
+                query.findInBackground(new FindCallback<ParseObject>() {
+
+                    @Override
+                    public void done(List<ParseObject> parseObjects, ParseException e) {
+                        if (e == null) {
+                            ParseObject.deleteAllInBackground(parseObjects);
+                        } else {
+                            Log.d("Parse Error", "Could not retrieve stored markers for deletion - markers not delete from parse");
+                        }
+                    }
+                });
+                marker.remove();
             }
         });
     }
@@ -120,9 +177,22 @@ public class EditLocations extends ActionBarActivity {
         if (id   == R.id.action_help) {
             // display help model
         }
-        if (id   == R.id.action_clear) {
-            // delete marker array
-            // update interface
+        if (id == R.id.action_clear) {
+            map.clear();
+            markerList.clear();
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("CustomLocation");
+            query.whereEqualTo("user", ParseUser.getCurrentUser());
+            query.findInBackground(new FindCallback<ParseObject>() {
+
+                @Override
+                public void done(List<ParseObject> parseObjects, ParseException e) {
+                    if (e == null) {
+                        ParseObject.deleteAllInBackground(parseObjects);
+                    } else {
+                        Log.d("Parse Error", "Could not retrieve stored markers for deletion - markers not delete from parse");
+                    }
+                }
+            });
         }
 
         return super.onOptionsItemSelected(item);
@@ -142,8 +212,8 @@ public class EditLocations extends ActionBarActivity {
                         ParseObject markerObject = parseObjects.get(i);
                         LatLng point = new LatLng(markerObject.getDouble("latitude"), markerObject.getDouble("longitude"));
                         MarkerOptions mo = new MarkerOptions().position(point).title(markerObject.getString("location")).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                        mo.snippet("Tap here to remove this marker");
                         storedMarkers.add(map.addMarker(mo));
-                        // this isn't working...
                     }
                 } else {
                     Log.d("Parse Error", "Could not retrieve stored markers");
@@ -151,4 +221,87 @@ public class EditLocations extends ActionBarActivity {
             }
         });
     }
+
+    private String generatePointKey(Object toGen) {
+        int key = String.valueOf(toGen).hashCode();
+        return String.valueOf(key);
+    }
+
+    private void saveProximityAlertPoint(LatLng point) {
+//        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//        if (location==null) {
+//            Toast.makeText(this, "No last known location. Aborting...", Toast.LENGTH_LONG).show();
+//            return;
+//        }
+        saveCoordinatesInPreferences((float)point.latitude, (float)point.longitude, generatePointKey(point.latitude), generatePointKey(point.longitude));
+        addProximityAlert(point.latitude, point.longitude, getPointId(point));
+    }
+
+    private int getPointId(LatLng point) {
+        String id = String.valueOf(point.latitude) + String.valueOf(point.longitude);
+        return id.hashCode();
+    }
+
+    private void addProximityAlert(double latitude, double longitude, int id) {
+
+        Intent intent = new Intent(PROX_ALERT_INTENT);
+        PendingIntent proximityIntent = PendingIntent.getBroadcast(this, id, intent, 0);
+
+        locationManager.addProximityAlert(
+                latitude, // the latitude of the central point of the alert region
+                longitude, // the longitude of the central point of the alert region
+                POINT_RADIUS, // the radius of the central point of the alert region, in meters
+                PROX_ALERT_EXPIRATION, // time for this proximity alert, in milliseconds, or -1 to indicate no expiration
+                proximityIntent // will be used to generate an Intent to fire when entry to or exit from the alert region is detected
+        );
+
+        IntentFilter filter = new IntentFilter(PROX_ALERT_INTENT);
+        registerReceiver(new ProximityIntentReceiver(), filter);
+
+    }
+
+    private void removeProximityAlert(int id) {
+
+        Intent intent = new Intent(PROX_ALERT_INTENT);
+        PendingIntent proximityIntent = PendingIntent.getBroadcast(this, id, intent, 0);
+
+        locationManager.removeProximityAlert(proximityIntent);
+    }
+
+    private void saveCoordinatesInPreferences(float latitude, float longitude, String latKey, String lonKey) {
+        SharedPreferences prefs = this.getSharedPreferences(getClass().getSimpleName(), Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = prefs.edit();
+        prefsEditor.putFloat(latKey, latitude);
+        prefsEditor.putFloat(lonKey, longitude);
+        prefsEditor.apply();
+    }
+
+    private Location retrievelocationFromPreferences(String latKey, String lonKey) {
+        SharedPreferences prefs = this.getSharedPreferences(getClass().getSimpleName(), Context.MODE_PRIVATE);
+        Location location = new Location("POINT_LOCATION");
+        location.setLatitude(prefs.getFloat(latKey, 0));
+        location.setLongitude(prefs.getFloat(lonKey, 0));
+        return location;
+    }
+
+//    public class MyLocationListener implements LocationListener {
+//        public void onLocationChanged(Location location) {
+//            getMarkersFromParse();
+//            for (int i=0; i < storedMarkers.size(); i++) {
+//                Marker currentMarker = storedMarkers.get(i);
+//                LatLng currentPoint = currentMarker.getPosition();
+//                Location pointLocation = retrievelocationFromPreferences(generatePointKey(currentPoint.latitude), generatePointKey(currentPoint.longitude));
+//                float distance = location.distanceTo(pointLocation);
+//                Toast.makeText(getApplicationContext(),
+//                        "Distance from "+currentMarker.getTitle() + ": "+distance, Toast.LENGTH_LONG).show();
+//            }
+//
+//        }
+//        public void onStatusChanged(String s, int i, Bundle b) {
+//        }
+//        public void onProviderDisabled(String s) {
+//        }
+//        public void onProviderEnabled(String s) {
+//        }
+//    }
 }

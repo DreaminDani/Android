@@ -6,7 +6,7 @@ import com.parse.Parse;
 import com.parse.ParseInstallation;
 import com.parse.PushService;
 
-import net.desandoval.apps.imhere.locations.EditLocations;
+import net.desandoval.apps.imhere.main.Login;
 
 /**
  * Created by Peter on 2014.12.01..
@@ -24,7 +24,7 @@ public class MyApplication extends Application {
 
         Parse.initialize(this, APP_ID, CLIENT_KEY);
 
-        PushService.setDefaultPushCallback(this, EditLocations.class);
+        PushService.setDefaultPushCallback(this, Login.class);
 
         ParseInstallation.getCurrentInstallation().saveInBackground();
     }
