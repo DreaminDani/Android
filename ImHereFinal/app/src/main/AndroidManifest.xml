@@ -75,6 +75,12 @@
         </receiver>
 
         <receiver
+            android:name=".locations.ProximityIntentReceiver"
+            android:enabled="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
+        </receiver>
+
+        <receiver
             android:name=".recievers.StartAtBootReceiver"
             android:enabled="true"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >

@@ -1,0 +1,67 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SendLocation" >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSendLocationText"
+        android:text="The following message will be sent to your group:"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_below="@+id/tvSendLocationText"
+        android:text="ImHere"
+        android:id="@+id/etSendLocationMessage"
+        android:gravity="top"
+        android:background="#ffe9e9e9" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSendContactsText"
+        android:layout_below="@+id/etSendLocationMessage"
+        android:text="The following contacts will recieve your message:"/>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/SendLocationRecyclerList"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_below="@id/tvSendContactsText"/>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:id="@+id/divider1"
+        android:layout_below="@id/SendLocationRecyclerList"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sendViaSMS"
+        android:layout_below="@id/divider1"
+        android:clickable="true"
+        android:paddingTop="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textStyle="italic"
+            android:id="@+id/tvSendLocationContacts"
+            android:text="Send via SMS"
+            android:layout_alignParentLeft="true"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/send"
+            android:id="@+id/sendIcon"
+            android:paddingRight="10dp"
+            android:paddingEnd="5dp"
+            android:cropToPadding="false"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -59,7 +59,10 @@ public final class EditContacts extends Activity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        populateList();
+    }
 
+    private void populateList() {
         // get contacts from Parse
         storedContacts = new ArrayList<>();
         getContactsFromParse();
@@ -67,10 +70,6 @@ public final class EditContacts extends Activity {
         if (mContacts == null) {
             mContacts = new ArrayList<>();
         }
-
-        CustomContactsAdapter adapter = new CustomContactsAdapter(mContacts, this);
-
-        mRecyclerView.setAdapter(adapter);
     }
 
     private void setupSearchView() {
@@ -165,6 +164,8 @@ public final class EditContacts extends Activity {
                 } else {
                     Log.d("Parse Error", "Could not retrieve stored markers for deletion - markers not delete from parse");
                 }
+                CustomContactsAdapter adapter = new CustomContactsAdapter(mContacts, EditContacts.this);
+                mRecyclerView.setAdapter(adapter);
             }
         });
     }

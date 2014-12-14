@@ -22,8 +22,8 @@ import net.desandoval.apps.imhere.main.SendLocation;
  */
 public class MovementLocationListener implements LocationListener {
 
-    private static final String POINT_LATITUDE_KEY = "POINT_LATITUDE_KEY";
-    private static final String POINT_LONGITUDE_KEY = "POINT_LONGITUDE_KEY";
+    public static final String POINT_LATITUDE_KEY = "POINT_LATITUDE_KEY";
+    public static final String POINT_LONGITUDE_KEY = "POINT_LONGITUDE_KEY";
 
     public static final long MINIMUM_DISTANCECHANGE_FOR_UPDATE = 1; // in Meters
     public static final long MINIMUM_TIME_BETWEEN_UPDATE = 1000; // in Milliseconds
@@ -101,7 +101,7 @@ public class MovementLocationListener implements LocationListener {
 
     public static void createNotication(Context context, String title, String content, String pushId) {
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
-                new Intent(context, SendLocation.class), PendingIntent.FLAG_UPDATE_CURRENT);
+                new Intent(context, SendLocation.class), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.icon)

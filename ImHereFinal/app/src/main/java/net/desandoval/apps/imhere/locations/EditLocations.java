@@ -86,7 +86,7 @@ public class EditLocations extends ActionBarActivity {
         map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng point) {
-                String label = getMyLocationAddress(point);
+                String label = getMyLocationAddress(point, EditLocations.this);
                 MarkerOptions mo = new MarkerOptions().position(point).title(label).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                 mo.snippet("Tap here to remove this marker");
                 markerList.add(map.addMarker(mo));
@@ -129,8 +129,8 @@ public class EditLocations extends ActionBarActivity {
         });
     }
 
-    public String getMyLocationAddress(LatLng point) {
-        Geocoder geocoder= new Geocoder(this, Locale.ENGLISH);
+    public static String getMyLocationAddress(LatLng point, Context context) {
+        Geocoder geocoder= new Geocoder(context, Locale.ENGLISH);
         String result = "Unknown Location";
 
         try {

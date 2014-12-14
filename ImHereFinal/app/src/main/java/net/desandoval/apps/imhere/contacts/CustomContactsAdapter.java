@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.desandoval.apps.imhere.R;
+import net.desandoval.apps.imhere.main.SendLocation;
 
 import java.util.List;
 
@@ -37,6 +38,11 @@ public class CustomContactsAdapter extends RecyclerView.Adapter<CustomContactsAd
     }
 
     public CustomContactsAdapter(List<Contact> contacts, EditContacts context) {
+        mContacts = contacts;
+        mActivity = context;
+    }
+
+    public CustomContactsAdapter(List<Contact> contacts, SendLocation context) {
         mContacts = contacts;
         mActivity = context;
     }
