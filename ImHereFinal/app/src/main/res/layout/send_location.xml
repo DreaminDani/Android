@@ -30,6 +30,15 @@
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:layout_below="@id/tvSendContactsText"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/contactError"
+        android:gravity="center"
+        android:id="@+id/tvContactError"
+        android:layout_below="@id/tvSendContactsText"
+        android:visibility="invisible"
+        />
 
     <View
         android:layout_width="fill_parent"

@@ -5,5 +5,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="findContact">find person&#8230;</string>
-
+    <string name="contactError">There are no contacts in your \"ImHere\" group\n\nThat\'s okay! You can still send this message\nby tapping \"Send via SMS\" below</string>
+    <string name="helpTitle">"ImHere to help!"</string>
+    <string name="alert_dialog_ok">Thanks!</string>
+    <string name="alert_dialog_cancel">No Thanks!</string>
+    <string name="helpText1">When you arrive at a custom location\nyou\'ll be able to notify your\"ImHere\" group\nautomatically with a custom message!</string>
+    <string name="helpText2">Just press and hold to drop a pin!\nYou\'ll be alerted when you\'ve\narrived at your custom location.</string>
 </resources>

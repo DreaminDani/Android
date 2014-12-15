@@ -18,7 +18,7 @@ import net.desandoval.apps.imhere.R;
 import net.desandoval.apps.imhere.main.SendLocation;
 
 /**
- * Created by Daniel on 12/12/2014.
+ * Tracks how far user has travelled since last GPS checkin
  */
 public class MovementLocationListener implements LocationListener {
 

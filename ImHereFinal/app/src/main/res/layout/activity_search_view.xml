@@ -11,7 +11,8 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
         android:text="To Notify"
-        android:textSize="60dp" />
+        android:textSize="60dp"
+        />
 
     <TextView
         android:layout_width="match_parent"
@@ -20,21 +21,39 @@
         android:text="These people will get a text\nupon your arrival"
         android:id="@+id/textView2"
         android:layout_below="@+id/searchViewResult"
-        android:gravity="center_horizontal"/>
+        android:gravity="center_horizontal"
+        />
     <SearchView
         android:id="@+id/searchView"
         android:layout_below="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:queryHint="Add from Contacts">
+        android:queryHint="Find contacts by name or #">
     </SearchView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add from contacts above. Tap below to remove."
+        android:id="@+id/tvSearchInstructions"
+        android:layout_below="@id/searchView"
+        android:paddingLeft="18dp"
+        />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/searchView"/>
-
+        android:layout_below="@id/tvSearchInstructions"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="You have not added any contacts yet"
+        android:gravity="center"
+        android:id="@+id/tvListInstructions"
+        android:layout_below="@id/tvSearchInstructions"
+        android:visibility="invisible"
+        />
 
 </RelativeLayout>

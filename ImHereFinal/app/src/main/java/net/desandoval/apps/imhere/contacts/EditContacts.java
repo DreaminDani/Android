@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
@@ -37,7 +38,9 @@ import net.desandoval.apps.imhere.R;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * EditContacts activity for editing the user's "ImHere" group
+ */
 public final class EditContacts extends Activity {
     final String TAG = CustomContactsAdapter.class.getSimpleName();
 
@@ -47,6 +50,8 @@ public final class EditContacts extends Activity {
     private LinearLayoutManager mLayoutManager;
 
     private SearchView mSearchView;
+    private CustomContactsAdapter mAdapter;
+    private TextView tvListInstructions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +67,9 @@ public final class EditContacts extends Activity {
         populateList();
     }
 
+    /*
+     * Generates contact list from previously stored contacts
+     */
     private void populateList() {
         // get contacts from Parse
         storedContacts = new ArrayList<>();
@@ -70,8 +78,42 @@ public final class EditContacts extends Activity {
         if (mContacts == null) {
             mContacts = new ArrayList<>();
         }
+
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(EditContacts.this, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        removeContact(position);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                })
+        );
     }
 
+    /*
+     * Removes contact from list and Parse
+     */
+    private void removeContact(int position) {
+        Contact thisContact = mContacts.get(position);
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("CustomContacts");
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
+        query.whereEqualTo("id", thisContact.getID());
+        query.findInBackground(new FindCallback<ParseObject>() {
+
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (e == null) {
+                    ParseObject.deleteAllInBackground(parseObjects);
+                } else {
+                    Log.d("Parse Error", "Could not retrieve stored contact for deletion - contact not deleted from parse");
+                }
+            }
+        });
+        mContacts.remove(position);
+    }
+
+    /*
+     * Generates SearchView from xml
+     */
     private void setupSearchView() {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         final SearchView searchView = (SearchView) findViewById(R.id.searchView);
@@ -85,13 +127,16 @@ public final class EditContacts extends Activity {
         if (ContactsContract.Intents.SEARCH_SUGGESTION_CLICKED.equals(intent.getAction())) {
             Contact newContact = getContact(intent);
             addContactToParse(newContact);
-            mRecyclerView.getAdapter().notifyDataSetChanged();
+            mAdapter.notifyDataSetChanged();
         } else if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             // handles a search query
             String query = intent.getStringExtra(SearchManager.QUERY);
         }
     }
 
+    /*
+     * Gets DisplayName from SearchView result (no longer used)
+     */
 //    private String getDisplayNameForContact(Intent intent) {
 //        Cursor phoneCursor = getContentResolver().query(intent.getData(), null, null, null, null);
 //        phoneCursor.moveToFirst();
@@ -101,6 +146,9 @@ public final class EditContacts extends Activity {
 //        return name;
 //    }
 
+    /*
+     * Gets Contact info from SearchView result (name, number, id)
+     */
     private Contact getContact(Intent intent) {
         Cursor c = getContentResolver().query(intent.getData(), null, null, null, null);
         c.moveToFirst();
@@ -132,7 +180,11 @@ public final class EditContacts extends Activity {
 
     }
 
+    /*
+     * Adds given contact to parse database
+     */
     private void addContactToParse(Contact contact) {
+        tvListInstructions.setVisibility(View.INVISIBLE);
         try {
             ParseObject newContact = new ParseObject("CustomContacts");
             newContact.put("name", contact.getName());
@@ -156,16 +208,21 @@ public final class EditContacts extends Activity {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 if (e == null) {
-                    for (int i = 0; i < parseObjects.size(); i++) {
-                        ParseObject obj = parseObjects.get(i);
-                        Contact storedContact = new Contact(obj.getString("name"), obj.getString("number"), obj.getString("id"));
-                        storedContacts.add(storedContact);
+                    if (parseObjects.isEmpty()) {
+                        tvListInstructions = (TextView) findViewById(R.id.tvListInstructions);
+                        tvListInstructions.setVisibility(View.VISIBLE);
+                    }else {
+                        for (int i = 0; i < parseObjects.size(); i++) {
+                            ParseObject obj = parseObjects.get(i);
+                            Contact storedContact = new Contact(obj.getString("name"), obj.getString("number"), obj.getString("id"));
+                            storedContacts.add(storedContact);
+                        }
                     }
                 } else {
-                    Log.d("Parse Error", "Could not retrieve stored markers for deletion - markers not delete from parse");
+                    Log.d("Parse Error", "Could not retrieve contacts from parse");
                 }
-                CustomContactsAdapter adapter = new CustomContactsAdapter(mContacts, EditContacts.this);
-                mRecyclerView.setAdapter(adapter);
+                mAdapter = new CustomContactsAdapter(mContacts, EditContacts.this);
+                mRecyclerView.setAdapter(mAdapter);
             }
         });
     }

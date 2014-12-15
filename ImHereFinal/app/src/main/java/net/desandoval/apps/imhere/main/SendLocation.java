@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -35,7 +36,7 @@ import java.util.List;
 
 
 /**
- * Created by Daniel on 9/12/2014.
+ * Allows user to send current location to desired "ImHere" group
  */
 public class SendLocation extends ActionBarActivity implements
         GooglePlayServicesClient.ConnectionCallbacks,
@@ -88,7 +89,7 @@ public class SendLocation extends ActionBarActivity implements
     }
 
     @Override
-    protected void onStop() {
+    protected void onPause() {
         mLocationClient.disconnect();
 
         super.onStop();
@@ -123,10 +124,15 @@ public class SendLocation extends ActionBarActivity implements
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 if (e == null) {
-                    for (int i = 0; i < parseObjects.size(); i++) {
-                        ParseObject obj = parseObjects.get(i);
-                        Contact storedContact = new Contact(obj.getString("name"), obj.getString("number"), obj.getString("id"));
-                        storedContacts.add(storedContact);
+                    if (parseObjects.isEmpty()) {
+                        TextView tvContactError = (TextView) findViewById(R.id.tvContactError);
+                        tvContactError.setVisibility(View.VISIBLE);
+                    }else {
+                        for (int i = 0; i < parseObjects.size(); i++) {
+                            ParseObject obj = parseObjects.get(i);
+                            Contact storedContact = new Contact(obj.getString("name"), obj.getString("number"), obj.getString("id"));
+                            storedContacts.add(storedContact);
+                        }
                     }
                 } else {
                     Log.d("Parse Error", "Could not retrieve stored markers for deletion - markers not delete from parse");
@@ -155,11 +161,15 @@ public class SendLocation extends ActionBarActivity implements
             separator = ", ";
         }
         StringBuilder phoneNumbers = new StringBuilder();
-        for (int i = 0; i < mContacts.size(); i++) {
-            Contact thisContact = mContacts.get(i);
-            phoneNumbers.append(thisContact.getNumber());
-            phoneNumbers.append(separator);
+        if(!mContacts.isEmpty()) {
+            phoneNumbers.append(mContacts.get(0).getNumber());
+            for (int i = 1; i < mContacts.size(); i++) {
+                Contact thisContact = mContacts.get(i);
+                phoneNumbers.append(separator);
+                phoneNumbers.append(thisContact.getNumber());
+            }
         }
+
         try {
 
             Intent sendIntent = new Intent(Intent.ACTION_VIEW);

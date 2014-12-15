@@ -8,7 +8,7 @@ import android.location.LocationManager;
 import net.desandoval.apps.imhere.locations.MovementLocationListener;
 
 /**
- * Created by Daniel on 20/11/2014.
+ * Starts MovementLocationListener onStart
  */
 public class StartAtBootReceiver extends BroadcastReceiver{
     @Override

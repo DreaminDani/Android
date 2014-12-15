@@ -22,7 +22,7 @@ import net.desandoval.apps.imhere.locations.EditLocations;
 import java.util.UUID;
 
 /**
- * Created by Daniel on 5/12/2014.
+ * Main screen for the application
  */
 public class Login extends Activity {
 

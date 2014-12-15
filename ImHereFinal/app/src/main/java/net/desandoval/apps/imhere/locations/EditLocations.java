@@ -1,6 +1,7 @@
 package net.desandoval.apps.imhere.locations;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -43,7 +44,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-
+/**
+ * EditLocations activity for editing the user's custom locations (notified when nearby)
+ */
 public class EditLocations extends ActionBarActivity {
 
     private GoogleMap map;
@@ -129,6 +132,9 @@ public class EditLocations extends ActionBarActivity {
         });
     }
 
+    /*
+     * Retrieves address for given location
+     */
     public static String getMyLocationAddress(LatLng point, Context context) {
         Geocoder geocoder= new Geocoder(context, Locale.ENGLISH);
         String result = "Unknown Location";
@@ -175,7 +181,7 @@ public class EditLocations extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id   == R.id.action_help) {
-            // display help model
+            showDialog();
         }
         if (id == R.id.action_clear) {
             map.clear();
@@ -198,6 +204,9 @@ public class EditLocations extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /*
+     * Retrieves previously stored markers from Parse
+     */
     public void getMarkersFromParse() {
         storedMarkers = new ArrayList<>();
 
@@ -222,11 +231,17 @@ public class EditLocations extends ActionBarActivity {
         });
     }
 
+    /*
+     * Generates hashKey based on given object
+     */
     private String generatePointKey(Object toGen) {
         int key = String.valueOf(toGen).hashCode();
         return String.valueOf(key);
     }
 
+    /*
+     * Saves a new ProximityAlert for the given LatLng point
+     */
     private void saveProximityAlertPoint(LatLng point) {
 //        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 //        if (location==null) {
@@ -237,11 +252,17 @@ public class EditLocations extends ActionBarActivity {
         addProximityAlert(point.latitude, point.longitude, getPointId(point));
     }
 
+    /*
+     * Generates hashCode for given point
+     */
     private int getPointId(LatLng point) {
         String id = String.valueOf(point.latitude) + String.valueOf(point.longitude);
         return id.hashCode();
     }
 
+    /*
+     * Adds a new ProximityAlert for the given LatLng point
+     */
     private void addProximityAlert(double latitude, double longitude, int id) {
 
         Intent intent = new Intent(PROX_ALERT_INTENT);
@@ -260,6 +281,9 @@ public class EditLocations extends ActionBarActivity {
 
     }
 
+    /*
+     * Removes a given ProximityAlert from Android OS
+     */
     private void removeProximityAlert(int id) {
 
         Intent intent = new Intent(PROX_ALERT_INTENT);
@@ -268,6 +292,9 @@ public class EditLocations extends ActionBarActivity {
         locationManager.removeProximityAlert(proximityIntent);
     }
 
+    /*
+     * Stores given coordinate in sharedPreferences
+     */
     private void saveCoordinatesInPreferences(float latitude, float longitude, String latKey, String lonKey) {
         SharedPreferences prefs = this.getSharedPreferences(getClass().getSimpleName(), Context.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = prefs.edit();
@@ -275,33 +302,30 @@ public class EditLocations extends ActionBarActivity {
         prefsEditor.putFloat(lonKey, longitude);
         prefsEditor.apply();
     }
-
-    private Location retrievelocationFromPreferences(String latKey, String lonKey) {
-        SharedPreferences prefs = this.getSharedPreferences(getClass().getSimpleName(), Context.MODE_PRIVATE);
-        Location location = new Location("POINT_LOCATION");
-        location.setLatitude(prefs.getFloat(latKey, 0));
-        location.setLongitude(prefs.getFloat(lonKey, 0));
-        return location;
+    void showDialog() {
+        DialogFragment newFragment = MyAlertDialogFragment.newInstance(
+                0);
+        newFragment.show(getFragmentManager(), "dialog");
     }
 
-//    public class MyLocationListener implements LocationListener {
-//        public void onLocationChanged(Location location) {
-//            getMarkersFromParse();
-//            for (int i=0; i < storedMarkers.size(); i++) {
-//                Marker currentMarker = storedMarkers.get(i);
-//                LatLng currentPoint = currentMarker.getPosition();
-//                Location pointLocation = retrievelocationFromPreferences(generatePointKey(currentPoint.latitude), generatePointKey(currentPoint.longitude));
-//                float distance = location.distanceTo(pointLocation);
-//                Toast.makeText(getApplicationContext(),
-//                        "Distance from "+currentMarker.getTitle() + ": "+distance, Toast.LENGTH_LONG).show();
-//            }
-//
-//        }
-//        public void onStatusChanged(String s, int i, Bundle b) {
-//        }
-//        public void onProviderDisabled(String s) {
-//        }
-//        public void onProviderEnabled(String s) {
-//        }
+    public void doPositiveClick() {
+        // Do stuff here.
+        Log.i("FragmentAlertDialog", "Positive click!");
+    }
+
+    public void doNegativeClick() {
+        // Do stuff here.
+        Log.i("FragmentAlertDialog", "Negative click!");
+    }
+
+    /*
+     * Retrieves given coordinate in sharedPreferences (depreciated)
+     */
+//    private Location retrievelocationFromPreferences(String latKey, String lonKey) {
+//        SharedPreferences prefs = this.getSharedPreferences(getClass().getSimpleName(), Context.MODE_PRIVATE);
+//        Location location = new Location("POINT_LOCATION");
+//        location.setLatitude(prefs.getFloat(latKey, 0));
+//        location.setLongitude(prefs.getFloat(lonKey, 0));
+//        return location;
 //    }
 }
